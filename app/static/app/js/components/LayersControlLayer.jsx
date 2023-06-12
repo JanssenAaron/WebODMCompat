@@ -234,7 +234,7 @@ export default class LayersControlLayer extends React.Component {
         
         this.exportReq = $.ajax({
                 type: 'POST',
-                url: `/api/projects/${this.meta.task.project}/tasks/${this.meta.task.id}/orthophoto/export`,
+                url: SCRIPT_NAME_URL + `/api/projects/${this.meta.task.project}/tasks/${this.meta.task.id}/orthophoto/export`,
                 data: this.getLayerParams()
             }).done(result => {
                 if (result.celery_task_id){

@@ -75,7 +75,7 @@ class ProjectListItem extends React.Component {
     this.setState({refreshing: true});
 
     this.refreshRequest = 
-      $.getJSON(`/api/projects/${this.state.data.id}/`)
+      $.getJSON(SCRIPT_NAME_URL + `/api/projects/${this.state.data.id}/`)
         .done((json) => {
           this.setState({data: json});
         })
@@ -250,7 +250,7 @@ class ProjectListItem extends React.Component {
                 this.setUploadState({uploading: false});
 
                 $.ajax({
-                    url: `/api/projects/${this.state.data.id}/tasks/${this.dz._taskInfo.id}/commit/`,
+                    url: SCRIPT_NAME_URL + `/api/projects/${this.state.data.id}/tasks/${this.dz._taskInfo.id}/commit/`,
                     contentType: 'application/json',
                     dataType: 'json',
                     type: 'POST'
@@ -338,7 +338,7 @@ class ProjectListItem extends React.Component {
 
   handleDelete(){
     return $.ajax({
-          url: `/api/projects/${this.state.data.id}/`,
+          url: SCRIPT_NAME_URL + `/api/projects/${this.state.data.id}/`,
           type: 'DELETE'
         }).done(() => {
           if (this.props.onDelete) this.props.onDelete(this.state.data.id);
@@ -364,7 +364,7 @@ class ProjectListItem extends React.Component {
     }
 
     $.ajax({
-        url: `/api/projects/${this.state.data.id}/tasks/`,
+        url: SCRIPT_NAME_URL + `/api/projects/${this.state.data.id}/tasks/`,
         contentType: 'application/json',
         data: JSON.stringify(formData),
         dataType: 'json',
@@ -372,7 +372,7 @@ class ProjectListItem extends React.Component {
       }).done((task) => {
         if (task && task.id){
             this.dz._taskInfo.id = task.id;
-            this.dz.options.url = `/api/projects/${this.state.data.id}/tasks/${task.id}/upload/`;
+            this.dz.options.url = SCRIPT_NAME_URL + `/api/projects/${this.state.data.id}/tasks/${task.id}/upload/`;
             this.dz.processQueue();
         }else{
             this.setState({error: interpolate(_('Cannot create new task. Invalid response from server: %(error)s'), { error: JSON.stringify(task) }) });
@@ -402,7 +402,7 @@ class ProjectListItem extends React.Component {
 
   updateProject(project){
     return $.ajax({
-        url: `/api/projects/${this.state.data.id}/edit/`,
+        url: SCRIPT_NAME_URL + `/api/projects/${this.state.data.id}/edit/`,
         contentType: 'application/json',
         data: JSON.stringify({
           name: project.name,
@@ -418,7 +418,7 @@ class ProjectListItem extends React.Component {
   }
 
   viewMap(){
-    location.href = `/map/project/${this.state.data.id}/`;
+    location.href = SCRIPT_NAME_URL + `/map/project/${this.state.data.id}/`;
   }
 
   handleImportTask = () => {
@@ -718,7 +718,7 @@ class ProjectListItem extends React.Component {
           {this.state.showTaskList ? 
             <TaskList 
                 ref={this.setRef("taskList")} 
-                source={`/api/projects/${data.id}/tasks/?ordering=${this.state.sortKey}`}
+                source={SCRIPT_NAME_URL + `/api/projects/${data.id}/tasks/?ordering=${this.state.sortKey}`}
                 onDelete={this.taskDeleted}
                 onTaskMoved={this.taskMoved}
                 hasPermission={this.hasPermission}

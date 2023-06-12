@@ -10,7 +10,7 @@ class AssetDownload{
   }
 
   downloadUrl(project_id, task_id){
-    return `/api/projects/${project_id}/tasks/${task_id}/download/${this.asset}`;
+    return SCRIPT_NAME_URL + `/api/projects/${project_id}/tasks/${task_id}/download/${this.asset}`;
   }
 
   exportId(){

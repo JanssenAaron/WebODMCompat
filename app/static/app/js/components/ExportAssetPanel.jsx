@@ -126,7 +126,7 @@ export default class ExportAssetPanel extends React.Component {
         
         this.exportReq = $.ajax({
                 type: 'POST',
-                url: `/api/projects/${task.project}/tasks/${task.id}/${this.props.asset}/export`,
+                url: SCRIPT_NAME_URL + `/api/projects/${task.project}/tasks/${task.id}/${this.props.asset}/export`,
                 data
             }).done(result => {
                 if (result.celery_task_id){

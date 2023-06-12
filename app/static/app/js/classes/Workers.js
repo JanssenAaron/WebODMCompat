@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 export default {
-    waitForCompletion: (celery_task_id, cb, checkUrl = "/api/workers/check/") => {
+    waitForCompletion: (celery_task_id, cb, checkUrl = SCRIPT_NAME_URL + "/api/workers/check/") => {
         let errorCount = 0;
         let url = checkUrl + celery_task_id;
 
@@ -29,10 +29,10 @@ export default {
     },
 
     downloadFile: (celery_task_id, filename = "") => {
-        window.location.href = `/api/workers/get/${celery_task_id}?filename=${filename}`;
+        window.location.href = SCRIPT_NAME_URL + `/api/workers/get/${celery_task_id}?filename=${filename}`;
     },
 
-    getOutput: (celery_task_id, cb, getUrl = "/api/workers/get/") => {
+    getOutput: (celery_task_id, cb, getUrl = SCRIPT_NAME_URL + "/api/workers/get/") => {
         let url = getUrl + celery_task_id;
         $.ajax({
             type: 'GET',

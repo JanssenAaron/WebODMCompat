@@ -22,7 +22,7 @@ class ImagePopup extends React.Component {
 
     getImageUrl(){
         const { feature, task } = this.props;
-        return `/api/projects/${task.project}/tasks/${task.id}/images/thumbnail/${feature.properties.filename}`;
+        return SCRIPT_NAME_URL + `/api/projects/${task.project}/tasks/${task.id}/images/thumbnail/${feature.properties.filename}`;
     }
 
     getThumbUrl(size){
@@ -67,8 +67,8 @@ class ImagePopup extends React.Component {
         const { error, loading, expandThumb } = this.state;
         const { feature, task } = this.props;
 
-        const downloadImageLink = `/api/projects/${task.project}/tasks/${task.id}/images/download/${feature.properties.filename}`;
-        const downloadShotsLink =  `/api/projects/${task.project}/tasks/${task.id}/download/shots.geojson`;
+        const downloadImageLink = SCRIPT_NAME_URL + `/api/projects/${task.project}/tasks/${task.id}/images/download/${feature.properties.filename}`;
+        const downloadShotsLink =  SCRIPT_NAME_URL + `/api/projects/${task.project}/tasks/${task.id}/download/shots.geojson`;
         const imageUrl = expandThumb ? this.getThumbUrl(999999999) : this.getThumbUrl(320);
         const assetDownload = AssetDownloads.only(["shots.geojson"])[0];
 

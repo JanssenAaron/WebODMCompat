@@ -55,7 +55,7 @@ class GCPPopup extends React.Component {
         const annotated = this.getAnnotationCoords(selectedShot);
         const reprojected = this.getReprojectedCoords(selectedShot);
     
-        return `/api/projects/${task.project}/tasks/${task.id}/images/thumbnail/${selectedShot}?size=${size}&center_x=${annotated[0]}&center_y=${annotated[1]}&draw_point=${annotated[0]},${annotated[1]}&point_color=f29900&point_radius=2&draw_point=${reprojected[0]},${reprojected[1]}&&point_color=00ff00&point_radius=2&zoom=${zoom}`;
+        return SCRIPT_NAME_URL + `/api/projects/${task.project}/tasks/${task.id}/images/thumbnail/${selectedShot}?size=${size}&center_x=${annotated[0]}&center_y=${annotated[1]}&draw_point=${annotated[0]},${annotated[1]}&point_color=f29900&point_radius=2&draw_point=${reprojected[0]},${reprojected[1]}&&point_color=00ff00&point_radius=2&zoom=${zoom}`;
     }
 
     componentDidMount(){
@@ -129,7 +129,7 @@ class GCPPopup extends React.Component {
         const { error, loading, expandGCPImage, selectedShot } = this.state;
         const { feature, task } = this.props;
         
-        const downloadGCPLink =  `/api/projects/${task.project}/tasks/${task.id}/download/ground_control_points.geojson`;
+        const downloadGCPLink =  SCRIPT_NAME_URL + `/api/projects/${task.project}/tasks/${task.id}/download/ground_control_points.geojson`;
         const assetDownload = AssetDownloads.only(["ground_control_points.geojson"])[0];
         const imageUrl = expandGCPImage ? this.getThumbUrl(999999999) : this.getThumbUrl(320);
 

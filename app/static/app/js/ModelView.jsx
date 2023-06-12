@@ -43,7 +43,7 @@ class SetCameraView extends React.Component{
         }
 
         $.ajax({
-            url: `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/3d/cameraview`,
+            url: SCRIPT_NAME_URL + `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/3d/cameraview`,
             contentType: 'application/json',
             data: JSON.stringify(view),
             dataType: 'json',
@@ -155,7 +155,7 @@ class ModelView extends React.Component {
   }
 
   assetsPath = () => {
-    return `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/assets`
+    return SCRIPT_NAME_URL + `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/assets`
   }
 
   urlExists = (url, cb) => {
@@ -354,7 +354,7 @@ class ModelView extends React.Component {
           // Load saved scene (if any)
           $.ajax({
               type: "GET",
-              url: `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/3d/scene`
+              url: SCRIPT_NAME_URL + `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/3d/scene`
           }).done(sceneData => {
             let localSceneData = Potree.saveProject(viewer);
 
@@ -398,7 +398,7 @@ class ModelView extends React.Component {
                 }
     
                 saveSceneReq = $.ajax({
-                    url: `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/3d/scene`,
+                    url: SCRIPT_NAME_URL + `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/3d/scene`,
                     contentType: 'application/json',
                     data: sceneData,
                     dataType: 'json',
@@ -536,7 +536,7 @@ class ModelView extends React.Component {
 
             const cameraObj = gltf.scene;
 
-            fileloader.load(`/api/projects/${task.project}/tasks/${task.id}/download/shots.geojson`,  ( data ) => {
+            fileloader.load(SCRIPT_NAME_URL + `/api/projects/${task.project}/tasks/${task.id}/download/shots.geojson`,  ( data ) => {
                 const geojson = JSON.parse(data);
                 cameraObj.traverse(obj => {
                     if (obj.material){

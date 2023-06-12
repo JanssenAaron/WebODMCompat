@@ -511,7 +511,7 @@ _('Example:'),
                 if ($assetLinks.length > 0 && $assetLinks.hasClass('loading')){
                     const {id, project} = (e.popup._source[Symbol.for("meta")] || {}).task;
 
-                    $.getJSON(`/api/projects/${project}/tasks/${id}/`)
+                    $.getJSON(SCRIPT_NAME_URL + `/api/projects/${project}/tasks/${id}/`)
                         .done(res => {
                             const { available_assets } = res;
                             const assets = AssetDownloads.excludeSeparators();

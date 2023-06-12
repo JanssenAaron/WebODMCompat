@@ -102,7 +102,7 @@ class EditTaskForm extends React.Component {
     }
 
     this.nodesRequest = 
-      $.getJSON("/api/processingnodes/?has_available_options=True", json => {
+      $.getJSON(SCRIPT_NAME_URL + "/api/processingnodes/?has_available_options=True", json => {
         if (Array.isArray(json)){
           // No nodes with options?
           const noProcessingNodesError = (nodes) => {
@@ -211,7 +211,7 @@ class EditTaskForm extends React.Component {
     }
 
     this.presetsRequest = 
-      $.getJSON("/api/presets/?ordering=-system,-created_at", presets => {
+      $.getJSON(SCRIPT_NAME_URL + "/api/presets/?ordering=-system,-created_at", presets => {
         if (Array.isArray(presets)){
           // Add custom preset
           const customPreset = {
@@ -413,7 +413,7 @@ class EditTaskForm extends React.Component {
       return $.Deferred().resolve();
     }else{
       return $.ajax({
-        url: `/api/presets/${preset.id}/`,
+        url: SCRIPT_NAME_URL + `/api/presets/${preset.id}/`,
         contentType: 'application/json',
         data: JSON.stringify({
           name: preset.name,
@@ -435,7 +435,7 @@ class EditTaskForm extends React.Component {
           name = isCustom ? _("My Preset") : interpolate(_("Copy of %(preset)s"), {preset: selectedPreset.name});
 
     $.ajax({
-      url: `/api/presets/`,
+      url: SCRIPT_NAME_URL + `/api/presets/`,
       contentType: 'application/json',
       data: JSON.stringify({
         name: name,
@@ -472,7 +472,7 @@ class EditTaskForm extends React.Component {
       this.setState({presetActionPerforming: true});
 
       return $.ajax({
-        url: `/api/presets/${selectedPreset.id}/`,
+        url: SCRIPT_NAME_URL + `/api/presets/${selectedPreset.id}/`,
         contentType: 'application/json',
         type: 'DELETE'
       }).done(() => {

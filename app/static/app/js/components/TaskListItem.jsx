@@ -109,7 +109,7 @@ class TaskListItem extends React.Component {
 
   refresh(){
     // Fetch
-    this.refreshRequest = $.getJSON(`/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/`, json => {
+    this.refreshRequest = $.getJSON(SCRIPT_NAME_URL + `/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/`, json => {
       if (json.id){
         let oldStatus = this.state.task.status;
 
@@ -167,7 +167,7 @@ class TaskListItem extends React.Component {
   }
 
   consoleOutputUrl(line){
-    return `/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/output/?line=${line}`;
+    return SCRIPT_NAME_URL + `/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/output/?line=${line}`;
   }
 
   hoursMinutesSecs(t){
@@ -195,7 +195,7 @@ class TaskListItem extends React.Component {
       const doAction = () => {
         this.setState({actionButtonsDisabled: true});
 
-        let url = `/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/${action}/`;
+        let url = SCRIPT_NAME_URL + `/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/${action}/`;
         $.post(url,
           {
             uuid: this.state.task.uuid
@@ -371,7 +371,7 @@ class TaskListItem extends React.Component {
       if (value === null) data.uuid = '';
 
       return $.ajax({
-          url: `/api/projects/${task.project}/tasks/${task.id}/`,
+          url: SCRIPT_NAME_URL + `/api/projects/${task.project}/tasks/${task.id}/`,
           contentType: 'application/json',
           data: JSON.stringify(data),
           dataType: 'json',
@@ -396,7 +396,7 @@ class TaskListItem extends React.Component {
   moveTaskAction = (formData) => {
     if (formData.project !== this.state.task.project){
         return $.ajax({
-            url: `/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/`,
+            url: SCRIPT_NAME_URL + `/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/`,
             contentType: 'application/json',
             data: JSON.stringify(formData),
             dataType: 'json',
@@ -450,14 +450,14 @@ class TaskListItem extends React.Component {
       if (task.status === statusCodes.COMPLETED){
         if (task.available_assets.indexOf("orthophoto.tif") !== -1 || task.available_assets.indexOf("dsm.tif") !== -1){
           addActionButton(" " + _("View Map"), "btn-primary", "fa fa-globe", () => {
-            location.href = `/map/project/${task.project}/task/${task.id}/`;
+            location.href = SCRIPT_NAME_URL + `/map/project/${task.project}/task/${task.id}/`;
           });
         }else{
           showOrthophotoMissingWarning = task.available_assets.indexOf("orthophoto.tif") === -1;
         }
 
         addActionButton(" " + _("View 3D Model"), "btn-primary", "fa fa-cube", () => {
-          location.href = `/3d/project/${task.project}/task/${task.id}/`;
+          location.href = SCRIPT_NAME_URL + `/3d/project/${task.project}/task/${task.id}/`;
         });
       }
 
