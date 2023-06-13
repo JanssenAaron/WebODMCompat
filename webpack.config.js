@@ -28,7 +28,7 @@ module.exports = {
         allChunks: true
     }),
     new webpack.DefinePlugin({
-      SCRIPT_NAME_URL: JSON.stringify("/webodm/app")
+      SCRIPT_NAME_URL: JSON.stringify("")
     })
   ],
 
