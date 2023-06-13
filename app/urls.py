@@ -1,4 +1,5 @@
 from django.conf.urls import url, include
+from django.urls import path, re_path
 from django.views.i18n import JavaScriptCatalog
 
 from .views import app as app_views, public as public_views, dev as dev_views
@@ -21,23 +22,25 @@ if settings.TESTING:
 
 urlpatterns = [
     url(r'^$', app_views.index, name='index'),
-    url(r'^welcome/$', app_views.welcome, name='welcome'),
-    url(r'^dashboard/$', app_views.dashboard, name='dashboard'),
-    url(r'^map/project/(?P<project_pk>[^/.]+)/task/(?P<task_pk>[^/.]+)/$', app_views.map, name='map'),
-    url(r'^map/project/(?P<project_pk>[^/.]+)/$', app_views.map, name='map'),
-    url(r'^3d/project/(?P<project_pk>[^/.]+)/task/(?P<task_pk>[^/.]+)/$', app_views.model_display, name='model_display'),
+    path('welcome/', app_views.welcome, name='welcome'),
+    path('dashboard/', app_views.dashboard, name='dashboard'),
+    path('map/project/<project_pk>/task/<task_pk>/', app_views.map, name='map'),
+    path('map/project/<project_pk>/', app_views.map, name='map'),
+    path('3d/project/<project_pk>/task/<task_pk>/', app_views.model_display, name='model_display'),
 
-    url(r'^public/task/(?P<task_pk>[^/.]+)/map/$', public_views.map, name='public_map'),
-    url(r'^public/task/(?P<task_pk>[^/.]+)/iframe/map/$', public_views.map_iframe, name='public_iframe_map'),
-    url(r'^public/task/(?P<task_pk>[^/.]+)/3d/$', public_views.model_display, name='public_3d'),
-    url(r'^public/task/(?P<task_pk>[^/.]+)/iframe/3d/$', public_views.model_display_iframe, name='public_iframe_3d'),
-    url(r'^public/task/(?P<task_pk>[^/.]+)/json/$', public_views.task_json, name='public_json'),
+    path('public/task/<task_pk>/map/', public_views.map, name='public_map'),
+    path('public/task/<task_pk>/iframe/map/', public_views.map_iframe, name='public_iframe_map'),
+    path('public/task/<task_pk>/3d/', public_views.model_display, name='public_3d'),
+    path('public/task/<task_pk>/iframe/3d/', public_views.model_display_iframe, name='public_iframe_3d'),
+    path('public/task/<task_pk>/json/', public_views.task_json, name='public_json'),
 
-    url(r'^processingnode/([\d]+)/$', app_views.processing_node, name='processing_node'),
+    re_path(r'^processingnode/([\d]+)/$', app_views.processing_node, name='processing_node'),
 
     url(r'^api/', include("app.api.urls")),
 
-    url(r'^plugins/(?P<plugin_name>[^/.]+)/(.*)$', app_view_handler),
+    # Bit of a hacky fix but changes could be made so that resource path is used in the app_view_handler
+    path('plugins/<plugin_name>/', app_view_handler, name="plugins"),
+    path('plugins/<plugin_name>/<path:resource_path>', app_view_handler, name="plugins"),
 
     url(r'^about/$', app_views.about, name='about'),
     url(r'^dev-tools/(?P<action>.*)$', dev_views.dev_tools, name='dev_tools'),
