@@ -117,7 +117,7 @@ class PluginBase(ABC):
         :param path: unix-style path
         :return: Path that can be accessed via a URL (from the browser), relative to plugins/<yourplugin>/public
         """
-        return "/plugins/{}/{}".format(self.get_name(), path)
+        return os.environ.get("SCRIPT_NAME", "") + "/plugins/{}/{}".format(self.get_name(), path)
 
     def is_persistent(self):
         """
