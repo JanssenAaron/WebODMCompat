@@ -40,6 +40,8 @@
                 {% get_plugins_main_menus as plugin_menus %}
                 {% for menu in plugin_menus %}
                     <li>
+                        <!-- This needs to have new logic to work with a suburl -->
+                        <!-- Currently I am taking the option of removing all plugins to side step the issue -->
                         <a href="{{menu.link}}"><i class="{{menu.css_icon}}"></i> {{menu.label}}{% if menu.has_submenu %}<span class="fa arrow"></span>{% endif %}</a>
 
                         {% if menu.has_submenu %}
