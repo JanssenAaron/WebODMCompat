@@ -215,7 +215,7 @@ class Map extends React.Component {
                                 </ul>
 
                                 <button
-                                    onclick="location.href='/3d/project/${meta.task.project}/task/${meta.task.id}/';"
+                                    onclick="location.href='${SCRIPT_NAME_URL}/3d/project/${meta.task.project}/task/${meta.task.id}/';"
                                     type="button"
                                     class="switchModeButton btn btn-sm btn-secondary">
                                     <i class="fa fa-cube"></i> 3D
