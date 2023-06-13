@@ -12,14 +12,15 @@ from urllib.parse import urlparse
 
 
 def try_resolve_url(request, url):
-    o = urlparse(request.get_full_path())
+    # Not a full proof method of replacing the url but it should work
+    o = urlparse(request.get_full_path().replace(request.headers.get("Script-Name"), ''))
     res = url.resolve(o.path)
     if res:
         return res
     else:
         return (None, None, None)
 
-def app_view_handler(request, plugin_name=None):
+def app_view_handler(request, plugin_name=None, resource_path=None):
     plugin = get_plugin_by_name(plugin_name) # TODO: this pings the server, which might be bad for performance with very large amount of files
     if plugin is None:
         raise Http404("Plugin not found")
