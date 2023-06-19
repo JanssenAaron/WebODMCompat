@@ -40,7 +40,7 @@ class EditPermissionsPanel extends React.Component {
     this.setState({loading: true, permissions: []});
 
     this.permsRequest = 
-      $.getJSON(`/api/projects/${this.props.projectId}/permissions/`, json => {
+      $.getJSON(`api/projects/${this.props.projectId}/permissions/`, json => {
         let validUsernames = {};
         json.forEach(p => validUsernames[p.username] = true);
         this.setState({validUsernames, permissions: json});
@@ -80,7 +80,7 @@ class EditPermissionsPanel extends React.Component {
         
       this.setState({validatingUser: true});
       this.validateTimeout = setTimeout(() => {
-        this.validateReq = $.getJSON(`/api/users/?limit=30&search=${encodeURIComponent(perm.username)}`)
+        this.validateReq = $.getJSON(`api/users/?limit=30&search=${encodeURIComponent(perm.username)}`)
           .done((json) => {
             json.forEach(u => {
                 this.state.validUsernames[u.username] = true;

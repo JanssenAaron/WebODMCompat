@@ -44,7 +44,7 @@ class MoveTaskDialog extends React.Component {
       this.setState({loading: true, projects: []});
 
       // Load projects from API
-      this.serverRequest = $.getJSON(`/api/projects/?ordering=-created_at`, json => {
+      this.serverRequest = $.getJSON(`api/projects/?ordering=-created_at`, json => {
         this.setState({
             projects: json.filter(p => p.permissions.indexOf("add") !== -1)
         });

@@ -215,7 +215,7 @@ class Map extends React.Component {
                                 </ul>
 
                                 <button
-                                    onclick="location.href='/3d/project/${meta.task.project}/task/${meta.task.id}/';"
+                                    onclick="location.href='3d/project/${meta.task.project}/task/${meta.task.id}/';"
                                     type="button"
                                     class="switchModeButton btn btn-sm btn-secondary">
                                     <i class="fa fa-cube"></i> 3D
@@ -511,7 +511,7 @@ _('Example:'),
                 if ($assetLinks.length > 0 && $assetLinks.hasClass('loading')){
                     const {id, project} = (e.popup._source[Symbol.for("meta")] || {}).task;
 
-                    $.getJSON(`/api/projects/${project}/tasks/${id}/`)
+                    $.getJSON(`api/projects/${project}/tasks/${id}/`)
                         .done(res => {
                             const { available_assets } = res;
                             const assets = AssetDownloads.excludeSeparators();

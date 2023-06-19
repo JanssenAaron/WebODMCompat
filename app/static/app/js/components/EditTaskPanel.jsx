@@ -44,7 +44,7 @@ class EditTaskPanel extends React.Component {
       delete(taskInfo.selectedNode);
 
       $.ajax({
-          url: `/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/`,
+          url: `api/projects/${this.props.task.project}/tasks/${this.props.task.id}/`,
           contentType: 'application/json',
           data: JSON.stringify(taskInfo),
           dataType: 'json',

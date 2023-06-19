@@ -63,7 +63,7 @@ class SharePopup extends React.Component{
     this.setState({togglingShare: true});
 
     return $.ajax({
-        url: `/api/projects/${task.project}/tasks/${task.id}/`,
+        url: `api/projects/${task.project}/tasks/${task.id}/`,
         contentType: 'application/json',
         data: JSON.stringify({
           public: !this.state.task.public

@@ -42,7 +42,7 @@ class ImportTaskPanel extends React.Component {
     if (this.dropzone){
       this.dz = new Dropzone(this.dropzone, {
           paramName: "file",
-          url : `/api/projects/${this.props.projectId}/tasks/import`,
+          url : `api/projects/${this.props.projectId}/tasks/import`,
           parallelUploads: 1,
           maxFilesize: 2147483647,
           uploadMultiple: false,
@@ -124,7 +124,7 @@ class ImportTaskPanel extends React.Component {
   handleConfirmImportUrl = () => {
     this.setState({importingFromUrl: true});
 
-    $.post(`/api/projects/${this.props.projectId}/tasks/import`,
+    $.post(`api/projects/${this.props.projectId}/tasks/import`,
       {
         url: this.state.importUrl,
         name: this.defaultTaskName()

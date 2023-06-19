@@ -109,7 +109,7 @@ class TaskListItem extends React.Component {
 
   refresh(){
     // Fetch
-    this.refreshRequest = $.getJSON(`/api/projects/${this.state.task.project}/tasks/${this.state.task.id}/`, json => {
+    this.refreshRequest = $.getJSON(`api/projects/${this.state.task.project}/tasks/${this.state.task.id}/`, json => {
       if (json.id){
         let oldStatus = this.state.task.status;
 

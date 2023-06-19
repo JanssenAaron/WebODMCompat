@@ -33,7 +33,7 @@ class SwitchModeButton extends React.Component {
 
       let url = this.props.public ? 
                 `../${target}/`
-              : `/${target}/project/${this.props.task.project}/task/${this.props.task.id}/`;
+              : `${target}/project/${this.props.task.project}/task/${this.props.task.id}/`;
       
       location.href = url;
     }

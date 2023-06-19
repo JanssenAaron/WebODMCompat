@@ -26,7 +26,7 @@ class Dashboard extends React.Component {
     if (!project.name) return (new $.Deferred()).reject(_("Name field is required"));
 
     return $.ajax({
-          url: `/api/projects/`,
+          url: `api/projects/`,
           type: 'POST',
           contentType: 'application/json',
           data: JSON.stringify({
@@ -46,7 +46,7 @@ class Dashboard extends React.Component {
       else q.page = parseInt(q.page);
 
       return <ProjectList
-                source={`/api/projects/${Utils.toSearchQuery(q)}`}
+                source={`api/projects/${Utils.toSearchQuery(q)}`}
                 ref={(domNode) => { this.projectList = domNode; }} 
                 currentPage={q.page}
                 currentSearch={q.search}
