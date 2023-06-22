@@ -143,6 +143,7 @@ class ProjectListItem extends React.Component {
           autoProcessQueue: false,
           createImageThumbnails: false,
           clickable: this.uploadButton,
+          maxFilesize: 131072, // 128G
           chunkSize: 2147483647,
           timeout: 2147483647,
           
@@ -215,6 +216,14 @@ class ProjectListItem extends React.Component {
 
             try{
                 if (file.status === "error"){
+                    if ((file.size / 1024) > this.dz.options.maxFilesize) {
+                        // Delete from upload queue
+                        this.setUploadState({
+                            totalCount: this.state.upload.totalCount - 1,
+                            totalBytes: this.state.upload.totalBytes - file.size
+                        });
+                        throw new Error(interpolate(_('Cannot upload %(filename)s, File too Large! Default MaxFileSize is %(maxFileSize)s MB!'), { filename: file.name, maxFileSize: this.dz.options.maxFilesize }));
+                    }
                     retry();
                 }else{
                     // Check response
@@ -398,6 +407,20 @@ class ProjectListItem extends React.Component {
 
   handleEditProject(){
     this.editProjectDialog.show();
+  }
+
+  handleHideProject = (deleteWarning, deleteAction) => {
+    return () => {
+      if (window.confirm(deleteWarning)){
+        this.setState({error: "", refreshing: true});
+        deleteAction()
+          .fail(e => {
+            this.setState({error: e.message || (e.responseJSON || {}).detail || e.responseText || _("Could not delete item")});
+          }).always(() => {
+            this.setState({refreshing: false});
+          });
+      }
+    }
   }
 
   updateProject(project){
@@ -681,6 +704,12 @@ class ProjectListItem extends React.Component {
                 [<i key="edit-icon" className='far fa-edit'></i>
                 ,<a key="edit-text" href="javascript:void(0);" onClick={this.handleEditProject}> {_("Edit")}
                 </a>]
+            : ""}
+
+            {!canEdit && !data.owned ? 
+              [<i key="edit-icon" className='far fa-eye-slash'></i>
+              ,<a key="edit-text" href="javascript:void(0);" onClick={this.handleHideProject(deleteWarning, this.handleDelete)}> {_("Delete")}
+              </a>]
             : ""}
 
           </div>
