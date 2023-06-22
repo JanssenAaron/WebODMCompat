@@ -53,6 +53,7 @@ WORKER_RUNNING = sys.argv[2:3] == ["worker"]
 DEBUG = os.environ.get('WO_DEBUG', 'YES') == 'YES' or TESTING
 DEV = os.environ.get('WO_DEV', 'NO') == 'YES' and not TESTING
 DEV_WATCH_PLUGINS = DEV and os.environ.get('WO_DEV_WATCH_PLUGINS', 'NO') == 'YES'
+SCRIPT_NAME = os.environ.get('WO_SCRIPT_NAME', '')
 SESSION_COOKIE_SECURE = CSRF_COOKIE_SECURE = os.environ.get('WO_SSL', 'NO') == 'YES'
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -187,7 +188,7 @@ LOCALE_PATHS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = SCRIPT_NAME + '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'app', 'static'),
@@ -261,8 +262,8 @@ LOGGING = {
 
 
 # Auth
-LOGIN_REDIRECT_URL = '/dashboard/'
-LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = SCRIPT_NAME + '/dashboard/'
+LOGIN_URL = SCRIPT_NAME + '/login/'
 
 # CORS (very relaxed settings, users might want to change this in production)
 CORS_ORIGIN_ALLOW_ALL = True

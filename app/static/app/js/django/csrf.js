@@ -30,6 +30,9 @@ $.ajaxSetup({
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
             xhr.setRequestHeader(header, token);
         }
+        if ( settings.url.indexOf('/') == 0 && WO_SCRIPT_NAME != undefined ) {
+            settings.url = WO_SCRIPT_NAME + settings.url
+        }
     }
 });
 

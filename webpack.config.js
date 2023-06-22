@@ -26,6 +26,9 @@ module.exports = {
     new BundleTracker({filename: './webpack-stats.json'}),
     new ExtractTextPlugin('css/[name]-[hash].css', {
         allChunks: true
+    }),
+    new webpack.DefinePlugin({
+      WO_SCRIPT_NAME: JSON.stringify(process.env.WO_SCRIPT_NAME)
     })
   ],
 
