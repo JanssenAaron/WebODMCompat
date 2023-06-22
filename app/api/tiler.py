@@ -27,6 +27,7 @@ from .tasks import TaskNestedView
 from rest_framework import exceptions
 from rest_framework.response import Response
 from worker.tasks import export_raster, export_pointcloud
+from django.urls import reverse
 from django.utils.translation import gettext as _
 
 
@@ -41,8 +42,9 @@ def get_zoom_safe(src_dst):
     return minzoom, maxzoom
 
 
-def get_tile_url(task, tile_type, query_params):
-    url = '/api/projects/{}/tasks/{}/{}/tiles/{{z}}/{{x}}/{{y}}'.format(task.project.id, task.id, tile_type)
+def get_tile_url(task, tile_type, query_params):    
+    url = reverse( 'tile_base_url', args=(task.project.id, task.id, tile_type)) + '/tiles/{z}/{x}/{y}'
+    
     params = {}
 
     for k in ['formula', 'bands', 'rescale', 'color_map', 'hillshade']:
@@ -586,7 +588,7 @@ class Export(TaskNestedView):
         if asset_type in ['orthophoto', 'dsm', 'dtm']:
             # Shortcut the process if no processing is required
             if export_format == 'gtiff' and (epsg == task.epsg or epsg is None) and expr is None:
-                return Response({'url': '/api/projects/{}/tasks/{}/download/{}.tif'.format(task.project.id, task.id, asset_type), 'filename': filename})
+                return Response({'url': reverse('task_downloads_api', args=(task.project.id, task.id, asset_type + '.tif')), 'filename': filename })
             else:
                 celery_task_id = export_raster.delay(url, epsg=epsg, 
                                                         expression=expr, 
@@ -600,7 +602,7 @@ class Export(TaskNestedView):
         elif asset_type == 'georeferenced_model':
             # Shortcut the process if no processing is required
             if export_format == 'laz' and (epsg == task.epsg or epsg is None):
-                return Response({'url': '/api/projects/{}/tasks/{}/download/{}.laz'.format(task.project.id, task.id, asset_type), 'filename': filename})
+                return Response({'url': reverse('task_downloads_api', args=[task.project.id, task.id, asset_type + '.laz'])  , 'filename': filename})
             else:
                 celery_task_id = export_pointcloud.delay(url, epsg=epsg, 
                                                             format=export_format).task_id

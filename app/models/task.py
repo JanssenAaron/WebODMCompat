@@ -26,6 +26,7 @@ from django.core.exceptions import ValidationError, SuspiciousFileOperation
 from django.db import models
 from django.db import transaction
 from django.db import connection
+from django.urls import reverse
 from django.utils import timezone
 from urllib3.exceptions import ReadTimeoutError
 
@@ -902,7 +903,7 @@ class Task(models.Model):
         if tile_type == 'plant':
             tile_type = 'orthophoto'
 
-        return "/api/projects/{}/tasks/{}/{}/".format(self.project.id, self.id, tile_type)
+        return reverse('tile_base_url', args=(self.project.id, self.id, tile_type))
 
     def get_map_items(self):
         types = []
@@ -913,10 +914,12 @@ class Task(models.Model):
         if 'dtm.tif' in self.available_assets: types.append('dtm')
 
         camera_shots = ''
-        if 'shots.geojson' in self.available_assets: camera_shots = '/api/projects/{}/tasks/{}/download/shots.geojson'.format(self.project.id, self.id)
+        if 'shots.geojson' in self.available_assets: 
+            camera_shots = reverse('task_downloads_api', args=(self.project.id, self.id, 'shots.geojson'))
 
         ground_control_points = ''
-        if 'ground_control_points.geojson' in self.available_assets: ground_control_points = '/api/projects/{}/tasks/{}/download/ground_control_points.geojson'.format(self.project.id, self.id)
+        if 'ground_control_points.geojson' in self.available_assets: 
+            ground_control_points = reverse('task_downloads_api', args=(self.project.id, self.id, 'ground_control_points.geojson'))
 
         return {
             'tiles': [{'url': self.get_tile_base_url(t), 'type': t} for t in types],
