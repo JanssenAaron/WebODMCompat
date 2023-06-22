@@ -43,7 +43,7 @@ def get_zoom_safe(src_dst):
 
 
 def get_tile_url(task, tile_type, query_params):    
-    url = reverse( 'tile_base_url', args=(task.project.id, task.id, tile_type)) + '/tiles/{z}/{x}/{y}'
+    url = reverse( 'tile_base_url', args=(task.project.id, task.id, tile_type)) + 'tiles/{z}/{x}/{y}'
     
     params = {}
 
